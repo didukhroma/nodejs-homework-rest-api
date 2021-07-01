@@ -29,6 +29,6 @@
     "prettier": "^2.3.2"
   },
   "lint-staged": {
-    "**/*{js,json}":["npm run lint:fix","git add"]
+    "**/*{js,json}":["npm run lint"]
   }
 }
