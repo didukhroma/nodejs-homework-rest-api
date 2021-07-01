@@ -29,10 +29,11 @@
     "prettier": "^2.3.2"
   },
   "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint"
-    }
-  },
+  "hooks": {
+    "pre-commit": "prettier --write . && git add -A ."
+  }
+},
+
   "lint-staged": {
     "**/*{js,json}": [
       "npm run lint"
