@@ -13,7 +13,9 @@
     "cross-env": "7.0.3",
     "express": "4.17.1",
     "joi": "^17.4.0",
-    "morgan": "1.10.0"
+    "lowdb": "^2.1.0",
+    "morgan": "1.10.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "eslint": "^7.19.0",
@@ -29,12 +31,19 @@
     "prettier": "^2.3.2"
   },
   "husky": {
-    "hooks": {"pre-commit":"lint-staged"}
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
-   "lint-staged": {
+  "lint-staged": {
     "**/*.{js,json}": [
-      "npm run lint",
+      "npm run lint:fix",
       "git add"
+    ]
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "model/*.*"
     ]
   }
 }
