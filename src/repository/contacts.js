@@ -1,57 +1,38 @@
-const { ObjectID } = require('mongodb');
-const { HttpCode } = require('../helpers/constants');
-const { ErrorHandler } = require('../helpers/errorHandler');
+const Contact = require('../schemas/contacts');
 
 class ContactsRepository {
   constructor(client) {
-    this.collection = client.db('db-contacts').collection('contacts');
-    // console.log(client.db().stats());
-  }
-
-  #getMongoId(id) {
-    try {
-      return ObjectID(id);
-    } catch (error) {
-      throw new ErrorHandler(
-        HttpCode.BAD_REQUEST,
-        `MongoDb _id:${error.message}`,
-        'Bad Request',
-      );
-    }
+    this.model = Contact;
   }
 
   async getAll() {
-    const results = await this.collection.find({}).toArray();
+    const results = await this.model.find({});
     return results;
   }
 
   async getById(id) {
-    const contactsId = this.getMongoId(id);
-    const [result] = await this.collection.find({ _id: contactsId }).toArray();
+    const result = await this.model.findOne({ _id: id });
     return result;
   }
 
   async create(body) {
-    const {
-      ops: [result],
-    } = await this.collection.insertOne(body);
+    const result = await this.model.create(body);
     return result;
   }
 
   async update(id, body) {
-    const contactsId = this.getMongoId(id);
-    const { value: result } = await this.collection.findOneAndUpdate(
-      { _id: contactsId },
-      { $set: body },
-      { returnOriginal: false },
+    const result = await this.model.findByIdAndUpdate(
+      { _id: id },
+      { ...body },
+      { new: true },
     );
+
     return result;
   }
 
   async remove(id) {
-    const contactsId = this.getMongoId(id);
-    const { value: result } = await this.collection.findOneAndDelete({
-      _id: contactsId,
+    const result = await this.model.findByIdAndDelete({
+      _id: id,
     });
     return result;
   }

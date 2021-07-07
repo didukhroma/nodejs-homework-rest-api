@@ -5,7 +5,7 @@ const router = express.Router();
 const {
   validateCreateContact,
   validateUpdateContact,
-} = require('../../src/validation/contacts');
+} = require('../../src/validation/contacts')
 
 router
   .get('/', contactsControllers.getAll)
@@ -13,4 +13,5 @@ router
   .post('/', validateCreateContact, contactsControllers.addNewContact)
   .delete('/:contactId', contactsControllers.remove)
   .put('/:contactId', validateUpdateContact, contactsControllers.update);
+  
 module.exports = router;

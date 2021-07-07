@@ -1,10 +1,14 @@
 const { HttpCode } = require('../../helpers/constants');
-const { getContactById } = require('../../../model');
+// const { getContactById } = require('../../../model');
+
+const { ContactsService } = require('../../services');
+// const contactsService = new ContactsService();
 
 const getById = async (req, res, next) => {
   const { contactId } = req.params;
   try {
-    const result = await getContactById(contactId);
+    // const result = await getContactById(contactId);
+    const result = await ContactsService.getById(contactId);
     if (!result) {
       next({
         status: HttpCode.NOT_FOUND,
