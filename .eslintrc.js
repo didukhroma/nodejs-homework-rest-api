@@ -11,5 +11,4 @@ module.exports = {
   rules: {
     'space-before-function-paren': 'off',
   },
-  parser: '@babel/eslint-parser',
 };

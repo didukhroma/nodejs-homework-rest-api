@@ -5,13 +5,14 @@ const router = express.Router();
 const {
   validateCreateContact,
   validateUpdateContact,
-} = require('../../src/validation/contacts')
+} = require('../../src/validation/contacts');
 
 router
   .get('/', contactsControllers.getAll)
   .get('/:contactId', contactsControllers.getById)
   .post('/', validateCreateContact, contactsControllers.addNewContact)
   .delete('/:contactId', contactsControllers.remove)
-  .put('/:contactId', validateUpdateContact, contactsControllers.update);
-  
+  .put('/:contactId', validateUpdateContact, contactsControllers.update)
+  .patch('/:contactId', contactsControllers.updateStatus);
+
 module.exports = router;

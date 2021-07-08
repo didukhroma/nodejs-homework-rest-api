@@ -25,6 +25,11 @@ class ContactsService {
     return data;
   }
 
+  async updateStatus(id, body) {
+    const data = await this.repositories.contacts.updateStatus(id, body);
+    return data;
+  }
+
   async remove(id) {
     const data = await this.repositories.contacts.remove(id);
     return data;

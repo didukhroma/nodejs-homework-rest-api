@@ -1,11 +1,11 @@
 const { HttpCode } = require('../../helpers/constants');
 const { ContactsService } = require('../../services');
 
-const update = async (req, res, next) => {
+const updateStatus = async (req, res, next) => {
   const body = req.body;
   const { contactId } = req.params;
   try {
-    const newContact = await ContactsService.update(contactId, body);
+    const newContact = await ContactsService.updateStatus(contactId, body);
 
     res.status(HttpCode.OK).json({
       status: 'success',
@@ -17,4 +17,4 @@ const update = async (req, res, next) => {
   }
 };
 
-module.exports = update;
+module.exports = updateStatus;

@@ -15,10 +15,6 @@ app.use(express.json());
 
 app.use('/api/contacts', contactsRouter);
 
-// app.use((req, res) => {
-//   res.status(404).json({ message: 'Not found' })
-// })
-
 app.use((err, req, res, next) => {
   err.status = err.status ? err.status : HttpCode.INTERNAL_SERVER_ERROR;
   res.status(err.status).json({

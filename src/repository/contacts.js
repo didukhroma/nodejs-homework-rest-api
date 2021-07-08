@@ -1,7 +1,7 @@
 const Contact = require('../schemas/contacts');
 
 class ContactsRepository {
-  constructor(client) {
+  constructor() {
     this.model = Contact;
   }
 
@@ -21,6 +21,16 @@ class ContactsRepository {
   }
 
   async update(id, body) {
+    const result = await this.model.findByIdAndUpdate(
+      { _id: id },
+      { ...body },
+      { new: true },
+    );
+
+    return result;
+  }
+
+  async updateStatus(id, body) {
     const result = await this.model.findByIdAndUpdate(
       { _id: id },
       { ...body },

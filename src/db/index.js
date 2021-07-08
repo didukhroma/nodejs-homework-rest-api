@@ -1,23 +1,12 @@
-// const { MongoClient } = require('mongodb');
 const mongoose = require('mongoose');
+
 require('dotenv').config();
-const uriDB = process.env.URI_DB2;
 
-// eslint-disable-next-line new-cap
-// const db = new MongoClient(uriDB, {
-//   useUnifiedTopology: true,
-//   poolSize: 5,
-// }).connect();
+const uriDB = process.env.URI_DB;
 
-// process.on('SIGINT', async () => {
-//   const client = await db;
-//   client.close();
-//   console.log('Connection for DB disconnected and app terminated');
-//   process.exit();
-// });
 const db = mongoose.connect(uriDB, {
   useUnifiedTopology: true,
-  useCreateIndexes: true,
+  // useCreateIndexes: true,
   useNewUrlParser: true,
   useFindAndModify: false,
 });
