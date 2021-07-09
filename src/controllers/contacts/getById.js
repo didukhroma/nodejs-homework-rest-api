@@ -6,6 +6,7 @@ const getById = async (req, res, next) => {
   const { contactId } = req.params;
   try {
     const result = await ContactsService.getById(contactId);
+    if (!result) throw new ErrorHandler(HttpCode.NOT_FOUND, 'Not found');
     res.status(HttpCode.OK).json({
       status: 'success',
       code: HttpCode.OK,

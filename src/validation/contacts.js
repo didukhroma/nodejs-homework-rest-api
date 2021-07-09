@@ -23,10 +23,6 @@ const schemaUpdateContact = Joi.object({
   phone: Joi.string().min(10).optional(),
 });
 
-const schemaUpdateStatus = Joi.object({
-  favorite: Joi.boolean().required(),
-});
-
 const validate = (schema, body, next) => {
   const { error, value } = schema.validate(body);
   const isEmptyBody = isEmpty(value);
@@ -46,6 +42,7 @@ const validate = (schema, body, next) => {
       data: 'Bad Request',
     });
   }
+
   next();
 };
 
@@ -54,6 +51,3 @@ module.exports.validateCreateContact = (req, res, next) =>
 
 module.exports.validateUpdateContact = (req, res, next) =>
   validate(schemaUpdateContact, req.body, next);
-
-module.exports.validateUpdateStatus = (req, res, next) =>
-  validate(schemaUpdateStatus, req.body, next);

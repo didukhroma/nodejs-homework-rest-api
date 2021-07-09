@@ -13,6 +13,6 @@ router
   .post('/', validateCreateContact, contactsControllers.addNewContact)
   .delete('/:contactId', contactsControllers.remove)
   .put('/:contactId', validateUpdateContact, contactsControllers.update)
-  .patch('/:contactId', contactsControllers.updateStatus);
+  .patch('/:contactId/favorite', contactsControllers.updateStatus);
 
 module.exports = router;
