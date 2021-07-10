@@ -23,17 +23,25 @@ const schemaUpdateContact = Joi.object({
   phone: Joi.string().min(10).optional(),
 });
 
+const schemaUpdateStatus = Joi.object({
+  favorite: Joi.boolean().required(),
+});
+
 const validate = (schema, body, next) => {
   const { error, value } = schema.validate(body);
   const isEmptyBody = isEmpty(value);
 
   if (error || isEmptyBody) {
     let resMessage = '';
-    if (isEmptyBody) {
+    const [{ message }] = error.details;
+    const isPresentFavorite = message.includes('favorite');
+
+    if (isEmptyBody && !isPresentFavorite) {
       resMessage = 'missing fields';
     } else {
-      const [{ message }] = error.details;
-      resMessage = `Field: ${message.replace(/"/g, '')}`;
+      resMessage = isPresentFavorite
+        ? 'Missing field favorite'
+        : `Field: ${message.replace(/"/g, '')}`;
     }
 
     return next({
@@ -46,8 +54,11 @@ const validate = (schema, body, next) => {
   next();
 };
 
-module.exports.validateCreateContact = (req, res, next) =>
+module.exports.validateCreateContact = (req, _, next) =>
   validate(schemaCreateContact, req.body, next);
 
-module.exports.validateUpdateContact = (req, res, next) =>
+module.exports.validateUpdateContact = (req, _, next) =>
   validate(schemaUpdateContact, req.body, next);
+
+module.exports.validateUpdateStatus = (req, _, next) =>
+  validate(schemaUpdateStatus, req.body, next);
