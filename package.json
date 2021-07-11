@@ -7,7 +7,7 @@
     "start:dev": "cross-env NODE_ENV=development nodemon ./bin/server.js",
     "lint": "eslint **/*.{js,json}",
     "lint:fix": "eslint --fix **/*.{js,json}",
-    "push": "git push origin hw03-mongodb"
+    "push": "git push origin hw04-auth"
   },
   "dependencies": {
     "cors": "2.8.5",
