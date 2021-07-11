@@ -1,21 +1,27 @@
+const isEmpty = require('lodash.isempty');
 const { HttpCode } = require('../../helpers/constants');
 const { ContactsService } = require('../../services');
 const { ErrorHandler } = require('../../helpers/errorHandler');
 
-const update = async (req, res, next) => {
+const updateStatus = async (req, res, next) => {
   const body = req.body;
+  if (isEmpty(body)) {
+    next(new ErrorHandler(HttpCode.BAD_REQUEST, 'Missing field favorite'));
+    return;
+  }
+
   const { contactId } = req.params;
   try {
-    const updatedContact = await ContactsService.update(contactId, body);
+    const newContact = await ContactsService.updateStatus(contactId, body);
 
     res.status(HttpCode.OK).json({
       status: 'success',
       code: HttpCode.OK,
-      data: { updatedContact },
+      data: { newContact },
     });
   } catch (error) {
     next(new ErrorHandler(HttpCode.NOT_FOUND, 'Not found', error.message));
   }
 };
 
-module.exports = update;
+module.exports = updateStatus;

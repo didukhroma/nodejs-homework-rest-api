@@ -1,25 +1,20 @@
 const { HttpCode } = require('../../helpers/constants');
-const { removeContact } = require('../../../model');
+const { ContactsService } = require('../../services');
+const { ErrorHandler } = require('../../helpers/errorHandler');
 
 const remove = async (req, res, next) => {
   try {
     const { contactId } = req.params;
-    const contact = await removeContact(contactId);
-    if (contact) {
-      res.status(HttpCode.OK).json({
-        status: 'success',
-        code: HttpCode.OK,
-        message: 'contact deleted',
-      });
-    } else {
-      res.status(HttpCode.NOT_FOUND).json({
-        status: 'error',
-        code: HttpCode.NOT_FOUND,
-        message: 'Not found ',
-      });
-    }
+    const result = await ContactsService.remove(contactId);
+    if (!result) throw new ErrorHandler(HttpCode.NOT_FOUND, 'Not found ');
+    res.status(HttpCode.OK).json({
+      status: 'success',
+      code: HttpCode.OK,
+      message: 'contact deleted',
+    });
+    return;
   } catch (error) {
-    next(error);
+    next(new ErrorHandler(HttpCode.NOT_FOUND, 'Not found ', error.message));
   }
 };
 
