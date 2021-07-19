@@ -5,7 +5,8 @@ const { ErrorHandler } = require('../../helpers/errorHandler');
 const remove = async (req, res, next) => {
   try {
     const { contactId } = req.params;
-    const result = await ContactsService.remove(contactId);
+    const userId = req.user.id;
+    const result = await ContactsService.remove(userId, contactId);
     if (!result) throw new ErrorHandler(HttpCode.NOT_FOUND, 'Not found ');
     res.status(HttpCode.OK).json({
       status: 'success',

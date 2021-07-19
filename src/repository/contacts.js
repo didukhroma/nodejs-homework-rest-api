@@ -1,28 +1,48 @@
-const Contact = require('../model');
+const { Contact } = require('../model');
 
 class ContactsRepository {
   constructor() {
     this.model = Contact;
   }
 
-  async getAll() {
-    const results = await this.model.find({});
-    return results;
-  }
-
-  async getById(id) {
-    const result = await this.model.findOne({ _id: id });
+  async getAll(userId, { limit = 5, offset = 0, sortBy, sortByDesc, filter }) {
+    const result = await this.model.paginate(
+      { owner: userId },
+      {
+        limit,
+        offset,
+        sort: {
+          ...(sortBy ? { [`${sortBy}`]: 1 } : {}),
+          ...(sortByDesc ? { [`${sortBy}`]: -1 } : {}),
+        },
+        select: filter ? filter.split('|').join(' ') : '',
+        populate: {
+          path: 'owner',
+          select: 'email -_id',
+        },
+      },
+    );
     return result;
   }
 
-  async create(body) {
-    const result = await this.model.create(body);
+  async getById(userId, id) {
+    const result = await this.model
+      .findOne({ _id: id, owner: userId })
+      .populate({
+        path: 'owner',
+        select: 'email -_id',
+      });
     return result;
   }
 
-  async update(id, body) {
+  async create(userId, body) {
+    const result = await this.model.create({ ...body, owner: userId });
+    return result;
+  }
+
+  async update(userId, id, body) {
     const result = await this.model.findByIdAndUpdate(
-      { _id: id },
+      { _id: id, owner: userId },
       { ...body },
       { new: true },
     );
@@ -30,9 +50,9 @@ class ContactsRepository {
     return result;
   }
 
-  async updateStatus(id, body) {
+  async updateStatus(userId, id, body) {
     const result = await this.model.findByIdAndUpdate(
-      { _id: id },
+      { _id: id, owner: userId },
       { ...body },
       { new: true },
     );
@@ -40,9 +60,10 @@ class ContactsRepository {
     return result;
   }
 
-  async remove(id) {
+  async remove(userId, id) {
     const result = await this.model.findByIdAndDelete({
       _id: id,
+      owner: userId,
     });
     return result;
   }

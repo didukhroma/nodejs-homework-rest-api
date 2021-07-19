@@ -1,6 +1,9 @@
+const bcrypt = require('bcryptjs');
+const SALT_FACTOR = 10;
 const { Schema } = require('mongoose');
+const { Subscription } = require('../../helpers/constants');
 
-const usersSchema = new Schema(
+const userSchema = new Schema(
   {
     password: {
       type: String,
@@ -13,8 +16,8 @@ const usersSchema = new Schema(
     },
     subscription: {
       type: String,
-      enum: ['starter', 'pro', 'business'],
-      default: 'starter',
+      enum: [Subscription.STARTER, Subscription.PRO, Subscription.BUSINESS],
+      default: Subscription.STARTER,
     },
     token: {
       type: String,
@@ -24,4 +27,17 @@ const usersSchema = new Schema(
   { versionKey: false, timestamps: true },
 );
 
-module.exports = { usersSchema };
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(
+    this.password,
+    bcrypt.genSaltSync(SALT_FACTOR),
+  );
+  next();
+});
+
+userSchema.methods.validPassword = function (password) {
+  return bcrypt.compareSync(password, this.password);
+};
+
+module.exports = { userSchema };
