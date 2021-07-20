@@ -12,7 +12,6 @@ class AuthService {
 
   async login({ email, password }) {
     const user = await this.repositories.users.findByEmail(email);
-    console.log(user.validPassword(password));
     if (!user || !user.validPassword(password)) return null;
 
     const payload = { id: user._id };
@@ -29,6 +28,8 @@ class AuthService {
   }
 
   async logout(id) {
+    const isPresent = await this.repositories.users.findById(id);
+    console.log(isPresent);
     const data = await this.repositories.users.updateToken(id, null);
     return data;
   }
