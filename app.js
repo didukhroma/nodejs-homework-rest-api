@@ -9,6 +9,7 @@ const app = express();
 const { HttpCode } = require('./src/helpers/constants');
 const { apiLimit, jsonLimit } = require('./src/config/rate-limit.json');
 const { ErrorHandler } = require('./src/helpers/errorHandler');
+
 const usersRouter = require('./routes/api/users');
 const contactsRouter = require('./routes/api/contacts');
 
@@ -34,10 +35,13 @@ app.use('/api/contacts', contactsRouter);
 app.use((err, req, res, next) => {
   err.status = err.status ? err.status : HttpCode.INTERNAL_SERVER_ERROR;
   res.status(err.status).json({
-    status: err.status === 500 ? 'fail' : 'error',
+    status: err.status === HttpCode.INTERNAL_SERVER_ERROR ? 'fail' : 'error',
     code: err.status,
     message: err.message,
-    data: err.status === 500 ? 'Internal Server Error' : err.data,
+    data:
+      err.status === HttpCode.INTERNAL_SERVER_ERROR
+        ? 'Internal Server Error'
+        : err.data,
   });
 });
 

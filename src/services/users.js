@@ -21,6 +21,11 @@ class UserService {
     const data = await this.repositories.users.findById(id);
     return data;
   }
+
+  async findByIdAndUpdate(userId, body) {
+    const data = await this.repositories.users.findByIdAndUpdate(userId, body);
+    return data;
+  }
 }
 
 module.exports = new UserService();

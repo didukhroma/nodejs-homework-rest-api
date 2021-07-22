@@ -6,7 +6,7 @@ class UsersRepository {
   }
 
   async findById(id) {
-    const result = await this.model.findOne({ _id: id });
+    const result = await this.model.findById(id);
     return result;
   }
 
@@ -23,6 +23,15 @@ class UsersRepository {
 
   async updateToken(id, token) {
     await this.model.updateOne({ _id: id }, { token });
+  }
+
+  async findByIdAndUpdate(userId, body) {
+    const result = await this.model.findByIdAndUpdate(
+      { _id: userId },
+      { ...body },
+      { new: true },
+    );
+    return result;
   }
 }
 
