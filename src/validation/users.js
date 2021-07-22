@@ -9,9 +9,6 @@ const schemaUser = Joi.object({
 });
 
 const schemaUpdateSubscription = Joi.object({
-  // subscription: Joi.string().domain({
-  //   tlds: { allow: ['starter', 'pro', 'business'] },
-  // }),
   subscription: Joi.string().valid('starter', 'pro', 'business').required(),
 });
 
