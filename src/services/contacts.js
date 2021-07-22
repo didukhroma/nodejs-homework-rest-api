@@ -6,9 +6,22 @@ class ContactsService {
   }
 
   async getAll(userId, query) {
-    const data = await this.repositories.contacts.getAll(query);
-    const { docs: contacts, totalDocs: total, limit, offset } = data;
-    return { contacts, total, limit: Number(limit), offset: Number(offset) };
+    const data = await this.repositories.contacts.getAll(userId, query);
+    console.log(data);
+    const {
+      docs: contacts,
+      totalDocs: totalContacts,
+      limit,
+      page,
+      totalPages,
+    } = data;
+    return {
+      contacts,
+      totalContacts,
+      limit,
+      page,
+      totalPages,
+    };
   }
 
   async getById(userId, id) {

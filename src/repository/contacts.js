@@ -5,22 +5,12 @@ class ContactsRepository {
     this.model = Contact;
   }
 
-  async getAll(userId, { limit = 5, offset = 0, sortBy, sortByDesc, filter }) {
+  async getAll(userId, { page = 1, limit = 10, favorite }) {
+    const filter = typeof favorite === 'undefined' ? null : { favorite };
+
     const result = await this.model.paginate(
-      { owner: userId },
-      {
-        limit,
-        offset,
-        sort: {
-          ...(sortBy ? { [`${sortBy}`]: 1 } : {}),
-          ...(sortByDesc ? { [`${sortBy}`]: -1 } : {}),
-        },
-        select: filter ? filter.split('|').join(' ') : '',
-        populate: {
-          path: 'owner',
-          select: 'email -_id',
-        },
-      },
+      { owner: userId, ...filter },
+      { limit, page, select: '-owner -createdAt -updatedAt ' },
     );
     return result;
   }
@@ -36,6 +26,11 @@ class ContactsRepository {
   }
 
   async create(userId, body) {
+    const isPresent = await this.model.findOne({
+      name: body.name,
+      owner: userId,
+    });
+    if (isPresent) return null;
     const result = await this.model.create({ ...body, owner: userId });
     return result;
   }
