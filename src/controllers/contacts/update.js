@@ -5,8 +5,13 @@ const { ErrorHandler } = require('../../helpers/errorHandler');
 const update = async (req, res, next) => {
   const body = req.body;
   const { contactId } = req.params;
+  const userId = req.user.id;
   try {
-    const updatedContact = await ContactsService.update(contactId, body);
+    const updatedContact = await ContactsService.update(
+      userId,
+      contactId,
+      body,
+    );
 
     res.status(HttpCode.OK).json({
       status: 'success',

@@ -11,8 +11,13 @@ const updateStatus = async (req, res, next) => {
   }
 
   const { contactId } = req.params;
+  const userId = req.user.id;
   try {
-    const newContact = await ContactsService.updateStatus(contactId, body);
+    const newContact = await ContactsService.updateStatus(
+      userId,
+      contactId,
+      body,
+    );
 
     res.status(HttpCode.OK).json({
       status: 'success',

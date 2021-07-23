@@ -5,33 +5,51 @@ class ContactsService {
     this.repositories = { contacts: new ContactsRepository() };
   }
 
-  async getAll() {
-    const data = await this.repositories.contacts.getAll();
+  async getAll(userId, query) {
+    const data = await this.repositories.contacts.getAll(userId, query);
+    console.log(data);
+    const {
+      docs: contacts,
+      totalDocs: totalContacts,
+      limit,
+      page,
+      totalPages,
+    } = data;
+    return {
+      contacts,
+      totalContacts,
+      limit,
+      page,
+      totalPages,
+    };
+  }
+
+  async getById(userId, id) {
+    const data = await this.repositories.contacts.getById(userId, id);
     return data;
   }
 
-  async getById(id) {
-    const data = await this.repositories.contacts.getById(id);
+  async create(userId, body) {
+    const data = await this.repositories.contacts.create(userId, body);
     return data;
   }
 
-  async create(body) {
-    const data = await this.repositories.contacts.create(body);
+  async update(userId, id, body) {
+    const data = await this.repositories.contacts.update(userId, id, body);
     return data;
   }
 
-  async update(id, body) {
-    const data = await this.repositories.contacts.update(id, body);
+  async updateStatus(userId, id, body) {
+    const data = await this.repositories.contacts.updateStatus(
+      userId,
+      id,
+      body,
+    );
     return data;
   }
 
-  async updateStatus(id, body) {
-    const data = await this.repositories.contacts.updateStatus(id, body);
-    return data;
-  }
-
-  async remove(id) {
-    const data = await this.repositories.contacts.remove(id);
+  async remove(userId, id) {
+    const data = await this.repositories.contacts.remove(userId, id);
     return data;
   }
 }

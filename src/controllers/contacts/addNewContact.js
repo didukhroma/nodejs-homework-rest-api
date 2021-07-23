@@ -3,7 +3,17 @@ const { ContactsService } = require('../../services');
 
 const addNewContact = async (req, res, next) => {
   try {
-    const newContact = await ContactsService.create(req.body);
+    const userId = req.user.id;
+    const newContact = await ContactsService.create(userId, req.body);
+    if (!newContact) {
+      return res
+        .status(HttpCode.BAD_REQUEST)
+        .json({
+          status: 'error',
+          code: HttpCode.BAD_REQUEST,
+          message: 'Contact already present in database',
+        });
+    }
     res.status(HttpCode.CREATED).json({
       status: 'success',
       code: HttpCode.CREATED,
