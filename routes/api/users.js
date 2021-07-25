@@ -18,6 +18,7 @@ router
     guard,
     validateUpdateSubscription,
     usersControllers.updateSubscription,
-  );
+  )
+  .patch('/avatars', guard, usersControllers.updateAvatar);
 
 module.exports = router;

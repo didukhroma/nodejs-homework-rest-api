@@ -8,6 +8,7 @@ const db = mongoose.connect(uriDB, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
   useFindAndModify: false,
+  useCreateIndex: true,
 });
 
 mongoose.connection.on('connected', () => {
