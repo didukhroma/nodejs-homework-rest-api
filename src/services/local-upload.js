@@ -1,7 +1,7 @@
 const jimp = require('jimp');
 const path = require('path');
 const fs = require('fs/promises');
-const createFolderIsNotExist = require('../helpers/createFolderIs');
+const createFolderIsNotExist = require('../helpers/createFolder');
 
 class UploadAvatarService {
   constructor(folderAvatars) {

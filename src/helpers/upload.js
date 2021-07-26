@@ -1,7 +1,8 @@
 const multer = require('multer');
 const path = require('path');
-// const fs = require('fs');
 require('dotenv').config();
+const ErrorHandler = require('./errorHandler');
+const { HttpCode } = require('./constants');
 
 console.log(__dirname);
 const UPLOAD_DIR = path.join(__dirname, process.env.UPLOAD_DIR);
@@ -16,12 +17,13 @@ const storage = multer.diskStorage({
 });
 const upload = multer({
   storage,
-  limits: { fileSize: 2000000 },
+  limits: { fileSize: 2000000 }, // 2 mb
   fileFilter: (req, file, cb) => {
     if (file.mimetype.includes('image')) {
       return cb(null, true);
     }
-    cb(null, false);
+
+    cb(new ErrorHandler(HttpCode.BAD_REQUEST, 'Wrong format file for avatar'));
   },
 });
 
