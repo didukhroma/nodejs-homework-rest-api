@@ -35,7 +35,7 @@ class UploadAvatarService {
       path.join(
         process.env.UPLOAD_DIR,
         process.env.AVATAR_OF_USERS,
-        `${idUser}-avatar`,
+        `${idUser}-avatar.jpg`,
       ),
     );
   }
