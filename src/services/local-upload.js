@@ -1,7 +1,7 @@
 const jimp = require('jimp');
 const path = require('path');
 const fs = require('fs/promises');
-const createFolderIsNotExist = require('../helpers/createFolder');
+require('dotenv').config();
 
 class UploadAvatarService {
   constructor(folderAvatars) {
@@ -22,10 +22,22 @@ class UploadAvatarService {
 
   async saveAvatar({ idUser, file }) {
     await this.transformAvatar(file.path);
-    const folderUserAvatar = path.join(this.folderAvatars, idUser);
-    await createFolderIsNotExist(folderUserAvatar);
-    await fs.rename(file.path, path.join(folderUserAvatar, file.filename));
-    return path.normalize(path.join(idUser, file.filename));
+    const folderUserAvatar = path.join(
+      process.cwd(),
+      process.env.UPLOAD_DIR,
+      process.env.AVATAR_OF_USERS,
+    );
+    await fs.rename(
+      file.path,
+      path.join(folderUserAvatar, `${idUser}-avatar.jpg`),
+    );
+    return path.normalize(
+      path.join(
+        process.env.UPLOAD_DIR,
+        process.env.AVATAR_OF_USERS,
+        `${idUser}-avatar`,
+      ),
+    );
   }
 }
 

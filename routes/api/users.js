@@ -20,7 +20,6 @@ router
     validateUpdateSubscription,
     usersControllers.updateSubscription,
   )
-  // .get('/avatars', guard, usersControllers.showAvatar)
   .patch(
     '/avatars',
     guard,

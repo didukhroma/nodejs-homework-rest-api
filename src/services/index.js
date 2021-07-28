@@ -1,4 +1,10 @@
 const ContactsService = require('./contacts');
 const UsersService = require('./users');
 const AuthService = require('./auth');
-module.exports = { ContactsService, UsersService, AuthService };
+const UploadAvatarService = require('./local-upload');
+module.exports = {
+  ContactsService,
+  UsersService,
+  AuthService,
+  UploadAvatarService,
+};

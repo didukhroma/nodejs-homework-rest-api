@@ -4,8 +4,7 @@ require('dotenv').config();
 const ErrorHandler = require('./errorHandler');
 const { HttpCode } = require('./constants');
 
-console.log(__dirname);
-const UPLOAD_DIR = path.join(__dirname, process.env.UPLOAD_DIR);
+const UPLOAD_DIR = path.join(process.cwd(), process.env.TEMP_DIR);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

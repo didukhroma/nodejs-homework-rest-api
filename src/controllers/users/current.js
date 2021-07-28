@@ -8,7 +8,11 @@ const current = async (req, res, next) => {
     res.status(HttpCode.OK).json({
       status: 'success',
       code: HttpCode.OK,
-      data: { email: result.email, subscription: result.subscription },
+      data: {
+        email: result.email,
+        subscription: result.subscription,
+        avatar: result.avatarURL,
+      },
     });
   } catch (error) {
     next(error);
