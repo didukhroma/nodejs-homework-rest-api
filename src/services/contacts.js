@@ -7,7 +7,7 @@ class ContactsService {
 
   async getAll(userId, query) {
     const data = await this.repositories.contacts.getAll(userId, query);
-    console.log(data);
+    // console.log(data);
     const {
       docs: contacts,
       totalDocs: totalContacts,

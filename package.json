@@ -7,6 +7,7 @@
     "start:dev": "cross-env NODE_ENV=development nodemon ./bin/server.js",
     "lint": "eslint **/*.{js,json}",
     "lint:fix": "eslint --fix **/*.{js,json}",
+    "test":"jest",
     "push": "git push origin hw05-avatars"
   },
   "dependencies": {
