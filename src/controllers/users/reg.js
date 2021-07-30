@@ -2,19 +2,18 @@ const { UsersService: serviceUser } = require('../../services');
 const { HttpCode } = require('../../helpers/constants');
 
 const reg = async (req, res, next) => {
-  const { name, email, password } = req.body;
-  const user = await serviceUser.findByEmail(email);
-
-  if (user) {
-    return next({
-      status: HttpCode.CONFLICT,
-      message: 'Email in use',
-    });
-  }
-
+  const { email, password } = req.body;
   try {
+    const user = await serviceUser.findByEmail(email);
+
+    if (user) {
+      return next({
+        status: HttpCode.CONFLICT,
+        message: 'Email in use',
+      });
+    }
+
     const newUser = await serviceUser.create({
-      name,
       email,
       password,
     });

@@ -27,6 +27,7 @@ app.use(helmet());
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json({ limit: jsonLimit }));
+app.use(express.static(__dirname));
 
 app.use('/api/', apiLimiter);
 app.use('/api/users', usersRouter);

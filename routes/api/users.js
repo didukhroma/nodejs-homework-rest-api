@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { usersControllers } = require('../../src/controllers');
 const guard = require('../../src/helpers/guard');
 const { createAccountLimiter } = require('../../src/helpers/rate-limit');
+const upload = require('../../src/helpers/upload');
 
 const {
   validateUser,
@@ -18,6 +19,12 @@ router
     guard,
     validateUpdateSubscription,
     usersControllers.updateSubscription,
+  )
+  .patch(
+    '/avatars',
+    guard,
+    upload.single('avatar'),
+    usersControllers.updateAvatar,
   );
 
 module.exports = router;
