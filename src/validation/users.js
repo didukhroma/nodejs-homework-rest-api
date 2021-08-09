@@ -14,7 +14,6 @@ const schemaUpdateSubscription = Joi.object({
 
 const validate = (schema, body, next) => {
   const { error } = schema.validate(body);
-  console.log(error);
   if (error) {
     const [{ message }] = error.details;
     return next({

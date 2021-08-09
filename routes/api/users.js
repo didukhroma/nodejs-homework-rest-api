@@ -11,9 +11,11 @@ const {
 
 router
   .get('/current', guard, usersControllers.current)
+  .get('/verify/:verificationToken', usersControllers.verification)
   .post('/signup', createAccountLimiter, validateUser, usersControllers.reg)
   .post('/login', validateUser, usersControllers.login)
   .post('/logout', guard, usersControllers.logout)
+  // .post('/verify', usersControllers.repeatVerification)
   .patch(
     '/',
     guard,
