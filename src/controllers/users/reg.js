@@ -2,9 +2,9 @@ const { nanoid } = require('nanoid');
 const { UsersService: serviceUser } = require('../../services');
 const { HttpCode } = require('../../helpers/constants');
 const { ErrorHandler } = require('../../helpers/errorHandler');
-// const EmailService = require('../../services/email');
+const EmailService = require('../../services/email');
 
-// const emailService = new EmailService();
+const emailService = new EmailService();
 
 const reg = async (req, res, next) => {
   const { email, password } = req.body;
@@ -17,7 +17,7 @@ const reg = async (req, res, next) => {
     }
 
     const verifyToken = nanoid();
-    /*
+
     try {
       await emailService.sendEmail(verifyToken, email);
     } catch (error) {
@@ -29,7 +29,7 @@ const reg = async (req, res, next) => {
         ),
       );
     }
-*/
+
     const newUser = await serviceUser.create({
       email,
       password,
