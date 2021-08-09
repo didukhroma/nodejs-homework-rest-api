@@ -8,7 +8,7 @@
     "lint": "eslint **/*.{js,json}",
     "lint:fix": "eslint --fix **/*.{js,json}",
     "test": "jest",
-    "push": "git push origin hw05-avatars"
+    "push": "git push origin hw06-email"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
