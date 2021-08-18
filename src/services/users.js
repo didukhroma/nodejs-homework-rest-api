@@ -31,6 +31,17 @@ class UserService {
     const data = await this.repositories.users.updateAvatar(userId, avatarUrl);
     return data;
   }
+
+  async verify({ verificationToken }) {
+    const user = await this.repositories.users.findByVerifyToken(
+      verificationToken,
+    );
+    if (user) {
+      await user.updateOne({ verify: true, verifyToken: null });
+      return true;
+    }
+    return false;
+  }
 }
 
 module.exports = new UserService();

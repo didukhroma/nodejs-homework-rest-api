@@ -15,6 +15,10 @@ class UsersRepository {
     return result;
   }
 
+  async findByVerifyToken(verifyToken) {
+    return await User.findOne({ verifyToken });
+  }
+
   async create(body) {
     // eslint-disable-next-line new-cap
     const user = new this.model(body);
